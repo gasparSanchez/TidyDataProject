@@ -46,6 +46,7 @@ The code can be seen as divided in two scripts, the first one generates the  **T
 First we generate and adecuate data.frame for each of the original data sets, i.e., the Test data and the Training data. By adecuate I mean with:
   * Appropiate labels
   * Including the information about the user of the device and the activity (with descriptive activity name, not an index)
+  
 For example, for the Training data
 
 ```

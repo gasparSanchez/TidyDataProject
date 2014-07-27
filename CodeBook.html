@@ -148,19 +148,14 @@ hr {
 <p>The data sets that compose the original raw data we&#39;re going to use are contained in a zip archive. This zip archive contains the nest <em>.txt</em> archives with relevant data for us:</p>
 
 <ul>
-<li>&#39;features_info.txt&#39;: Shows information about the variables used on the feature vector.</li>
 <li>&#39;features.txt&#39;: List of all features.</li>
 <li>&#39;activity_labels.txt&#39;: Links the class labels with their activity name.</li>
 <li>&#39;train/X_train.txt&#39;: Training set.</li>
 <li>&#39;train/y_train.txt&#39;: Training labels.</li>
 <li>&#39;test/X_test.txt&#39;: Test set.</li>
 <li>&#39;test/y_test.txt&#39;: Test labels.</li>
-</ul>
-
-<p>The following files are available for the train and test data. Their descriptions are equivalent. </p>
-
-<ul>
-<li>&#39;train/subject_train.txt&#39;: Each row identifies the subject who performed the activity for each window sample. Its range is from 1 to 30. </li>
+<li>&#39;train/subject_train.txt&#39;: Each row identifies the subject who performed the activity for each window sample. Its range is from 1 to 30.</li>
+<li>&#39;test/subject_test.txt&#39;: Each row identifies the subject who performed the activity for each window sample. Its range is from 1 to 30. </li>
 </ul>
 
 <p>For each record, that is the rows in <strong>X_train.txt</strong> and <strong>X_test.txt</strong>, it is provided:</p>
@@ -175,7 +170,16 @@ hr {
 
 <h2>Summary of the transformation of the data</h2>
 
-<p>We </p>
+<p>The precise steps followed to arrive to the final tidy data set are detailed at the <strong>README.md</strong> file. We summarize here just how we use the original files to generate the final archive, in case you&#39;re interested in the details, please read the <strong>README.md</strong> referenced file:</p>
+
+<ol>
+<li>We pass the data at <strong>features.txt</strong> as a header for the data contained in <strong>X_train.txt</strong> and <strong>X_test.txt</strong>.</li>
+<li>Add as a new columns <strong>subject_train.txt</strong> and <strong>y_train.txt</strong> to the <strong>X_train.txt</strong> data. The same for the <strong>X_test.txt</strong>. Note that the activities (contained in the <strong>y_sowhatever.txt</strong> files) are referenced as indices.</li>
+<li>We bind togheter <strong>X_train.txt</strong> and <strong>X_test.txt</strong> in an unique data set that contained all the data.</li>
+<li>We use the information in <strong>activity_labels.txt</strong> to change the indices that refer to the different activities in the data set to descriptive activity names.</li>
+<li>We filter the data to select just the variables we are interested in.</li>
+<li>We agregate the data to generate a new table with the average of each variable for each activity and each subject.</li>
+</ol>
 
 <h2>Appendix: Meaning of the data in the records</h2>
 
@@ -183,62 +187,62 @@ hr {
 
 <p>Subsequently, the body linear acceleration and angular velocity were derived in time to obtain Jerk signals (tBodyAccJerk-XYZ and tBodyGyroJerk-XYZ). Also the magnitude of these three-dimensional signals were calculated using the Euclidean norm (tBodyAccMag, tGravityAccMag, tBodyAccJerkMag, tBodyGyroMag, tBodyGyroJerkMag). </p>
 
-<p>Finally a Fast Fourier Transform (FFT) was applied to some of these signals producing fBodyAcc-XYZ, fBodyAccJerk-XYZ, fBodyGyro-XYZ, fBodyAccJerkMag, fBodyGyroMag, fBodyGyroJerkMag. (Note the &#39;f&#39; to indicate frequency domain signals). </p>
+<p>Finally a Fast Fourier Transform (FFT) was applied to some of these signals producing fBodyAcc-XYZ, fBodyAccJerk-XYZ, fBodyGyro-XYZ, fBodyAccJerkMag, fBodyGyroMag, fBodyGyroJerkMag. (Note the <strong>f</strong> to indicate frequency domain signals). </p>
 
 <p>These signals were used to estimate variables of the feature vector for each pattern:<br/>
-&#39;-XYZ&#39; is used to denote 3-axial signals in the X, Y and Z directions.</p>
+<strong>-XYZ</strong> is used to denote 3-axial signals in the X, Y and Z directions.</p>
 
-<p>tBodyAcc-XYZ
-tGravityAcc-XYZ
-tBodyAccJerk-XYZ
-tBodyGyro-XYZ
-tBodyGyroJerk-XYZ
-tBodyAccMag
-tGravityAccMag
-tBodyAccJerkMag
-tBodyGyroMag
-tBodyGyroJerkMag
-fBodyAcc-XYZ
-fBodyAccJerk-XYZ
-fBodyGyro-XYZ
-fBodyAccMag
-fBodyAccJerkMag
-fBodyGyroMag
-fBodyGyroJerkMag</p>
+<ul>
+<li>tBodyAcc-XYZ</li>
+<li>tGravityAcc-XYZ</li>
+<li>tBodyAccJerk-XYZ</li>
+<li>tBodyGyro-XYZ</li>
+<li>tBodyGyroJerk-XYZ</li>
+<li>tBodyAccMag</li>
+<li>tGravityAccMag</li>
+<li>tBodyAccJerkMag</li>
+<li>tBodyGyroMag</li>
+<li>tBodyGyroJerkMag</li>
+<li>fBodyAcc-XYZ</li>
+<li>fBodyAccJerk-XYZ</li>
+<li>fBodyGyro-XYZ</li>
+<li>fBodyAccMag</li>
+<li>fBodyAccJerkMag</li>
+<li>fBodyGyroMag</li>
+<li>fBodyGyroJerkMag</li>
+</ul>
 
 <p>The set of variables that were estimated from these signals are: </p>
 
-<p>mean(): Mean value
-std(): Standard deviation
-mad(): Median absolute deviation 
-max(): Largest value in array
-min(): Smallest value in array
-sma(): Signal magnitude area
-energy(): Energy measure. Sum of the squares divided by the number of values. 
-iqr(): Interquartile range 
-entropy(): Signal entropy
-arCoeff(): Autorregresion coefficients with Burg order equal to 4
-correlation(): correlation coefficient between two signals
-maxInds(): index of the frequency component with largest magnitude
-meanFreq(): Weighted average of the frequency components to obtain a mean frequency
-skewness(): skewness of the frequency domain signal 
-kurtosis(): kurtosis of the frequency domain signal 
-bandsEnergy(): Energy of a frequency interval within the 64 bins of the FFT of each window.
-angle(): Angle between to vectors.</p>
+<ul>
+<li>mean(): Mean value</li>
+<li>std(): Standard deviation</li>
+<li>mad(): Median absolute deviation </li>
+<li>max(): Largest value in array</li>
+<li>min(): Smallest value in array</li>
+<li>sma(): Signal magnitude area</li>
+<li>energy(): Energy measure. Sum of the squares divided by the number of values. </li>
+<li>iqr(): Interquartile range </li>
+<li>entropy(): Signal entropy</li>
+<li>arCoeff(): Autorregresion coefficients with Burg order equal to 4</li>
+<li>correlation(): correlation coefficient between two signals</li>
+<li>maxInds(): index of the frequency component with largest magnitude</li>
+<li>meanFreq(): Weighted average of the frequency components to obtain a mean frequency</li>
+<li>skewness(): skewness of the frequency domain signal </li>
+<li>kurtosis(): kurtosis of the frequency domain signal </li>
+<li>bandsEnergy(): Energy of a frequency interval within the 64 bins of the FFT of each window.</li>
+<li>angle(): Angle between to vectors.</li>
+</ul>
 
 <p>Additional vectors obtained by averaging the signals in a signal window sample. These are used on the angle() variable:</p>
 
-<p>gravityMean
-tBodyAccMean
-tBodyAccJerkMean
-tBodyGyroMean
-tBodyGyroJerkMean</p>
-
-<p>The complete list of variables of each feature vector is available in &#39;features.txt&#39;</p>
-
-<h2>The Processed data</h2>
-
-<h2>Steps to get the Processed data</h2>
+<ul>
+<li>gravityMean</li>
+<li>tBodyAccMean</li>
+<li>tBodyAccJerkMean</li>
+<li>tBodyGyroMean</li>
+<li>tBodyGyroJerkMean</li>
+</ul>
 
 </body>
 
