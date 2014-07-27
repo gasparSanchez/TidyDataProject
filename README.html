@@ -152,11 +152,11 @@ hr {
 <p>On this repository you could find:</p>
 
 <ol>
-<li>A tidy data set call TidyDataSet.txt created using various source of data.</li>
-<li>A tidy data set call TidyDataSetFinal.txt based in the first one but with some processing. </li>
-<li>A script, run_analysis.R, that generates both tidy data set: TidyDataSet.txt and TidyDataSetFinal.txt</li>
-<li>A code book that describes the variables, the data, and any transformations or work  performed to clean up the data called and CodeBook.md</li>
-<li>This file, README.md, that summarizes all the process and serves as a guide</li>
+<li>A tidy data set called <strong>TidyDataSet.txt</strong> created using various source of data</li>
+<li>A tidy data set called <strong>TidyDataSetFinal.txt</strong> based in the first one but with some processing </li>
+<li>A script, <strong>run_analysis.R</strong>, that generates both tidy data set: <strong>TidyDataSet.txt</strong> and <strong>TidyDataSetFinal.txt</strong></li>
+<li>A code book that describes the variables, the data, and any transformations or work  performed to clean up the data called and <strong>CodeBook.md</strong></li>
+<li>This file, <strong>README.md</strong>, that summarizes all the process, describes how the script works, and serves as a guide</li>
 </ol>
 
 <h2>The data</h2>
@@ -169,9 +169,11 @@ hr {
 
 <p><a href="https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip">https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip</a></p>
 
-<h2>The tidy data set</h2>
+<p>For more details about the data please consult the <strong>CodeBook.md</strong></p>
 
-<p>We were asked to create one R script called run_analysis.R that does the following: </p>
+<h2>Requirements for the tidy data sets </h2>
+
+<p>We were asked to create one R script that does the following: </p>
 
 <ul>
 <li>Merges the training and the test sets of the data for the project to create one data set.</li>
@@ -181,9 +183,80 @@ hr {
 <li>Creates a second, independent tidy data set with the average of each variable for each activity and each subject.</li>
 </ul>
 
+<p>At this repository you can find the script that accomplished all these tasks and that is called <strong>run_analysis.R</strong>.</p>
+
 <h2>The script</h2>
 
-<p>I have created a R script called run_analysis.R that can be run and executes all the steps demanded in the assignment. The code is commented in order to better understand how de tidy data is generated.</p>
+<p>In this last section I will describe how the script <strong>run_analysis.R</strong> works. This script can be run to produce all the steps demanded in the assignment (as long as you point to the appropiate direction to the original data sets). The code is also commented in order to better understand how de tidy data is generated.</p>
+
+<p>The code can be seen as divided in two scripts, the first one generates the  <strong>TidyDataSet.txt</strong>, the second one generates <strong>TidyDataSetFinal.txt</strong>.</p>
+
+<h3>The Tidy Data Set</h3>
+
+<p>First we generate and adecuate data.frame for each of the original data sets, i.e., the Test data and the Training data. By adecuate I mean with:</p>
+
+<ul>
+<li>Appropiate labels</li>
+<li>Including the information about the user of the device and the activity (with descriptive activity name, not an index)
+For example, for the Training data</li>
+</ul>
+
+<pre><code># Load the file with the names of the varables
+dataNames &lt;- read.table(&quot;~/Dropbox/Cursos/Coursera/Getting and Cleaning Data/Project/UCI HAR Dataset/features.txt&quot;, header=FALSE)
+# Pass the names of the variables as header of the data
+dataTrain &lt;- read.table(&quot;~/Dropbox/Cursos/Coursera/Getting and Cleaning Data/Project/UCI HAR Dataset/train/X_train.txt&quot;, col.names=dataNames$V2, header=FALSE)
+# Add the subject index to the data
+dataTrain$subject &lt;- as.matrix(read.table(&quot;~/Dropbox/Cursos/Coursera/Getting and Cleaning Data/Project/UCI HAR Dataset/train/subject_train.txt&quot;, header=FALSE))
+# Add the activity index to the data
+dataTrain$activity &lt;- as.matrix(read.table(&quot;~/Dropbox/Cursos/Coursera/Getting and Cleaning Data/Project/UCI HAR Dataset/train/y_train.txt&quot;, header=FALSE))
+dataTrain &lt;- as.data.frame(dataTrain)
+</code></pre>
+
+<p>We did the same for the Test data. Bind together the two data frames is straightforward using <strong>rbind.data.frame()</strong>.</p>
+
+<pre><code>data &lt;- rbind.data.frame(dataTrain, dataTest)
+</code></pre>
+
+<p>And change the activity indecies to descritive names</p>
+
+<pre><code>activityLabels &lt;- read.table(&quot;~/Dropbox/Cursos/Coursera/Getting and Cleaning Data/Project/UCI HAR Dataset/activity_labels.txt&quot;, header=FALSE)
+ActLabels &lt;- as.matrix(activityLabels$V2)
+ActLabels[1:6]
+data$activity &lt;- factor(data$activity, labels=ActLabels)
+</code></pre>
+
+<p>We, then, select only the variables with measurements on the mean and standard deviation for each measurement.</p>
+
+<pre><code>validCol &lt;- c(&quot;subject&quot;, &quot;activity&quot;, grep(&quot;.mean&quot;, colnames(data), value=TRUE), grep(&quot;.std&quot;, colnames(data), value=TRUE))
+# Redefining the data, this is my tidy data set
+data &lt;- data[,validCol]
+</code></pre>
+
+<p>Finally we create the data as an independent archive.</p>
+
+<pre><code># Just to send the archive to the correct place..
+setwd(&quot;~/Dropbox/Cursos/Coursera/Getting and Cleaning Data/Project/TidyDataProject/&quot;)
+# Creating the archive
+write.table(data, file=&quot;TidyDataSet.txt&quot;)
+</code></pre>
+
+<h3>The Final Tidy Data Set</h3>
+
+<p>Some aditional steps must be followed to arrive to the <strong>TidyDataSetFinal.txt</strong>. I use  <strong>aggregate()</strong> in the <strong>reshape2 package</strong> to generate the new table with the average of each variable for each activity and each subject.</p>
+
+<pre><code>library(&quot;reshape2&quot;)
+dataSummary &lt;-aggregate(data[3:81], by=list(data$subject,data$activity),FUN=mean, na.rm=TRUE)
+names(dataSummary)[1]&lt;-&quot;subject&quot;
+names(dataSummary)[2]&lt;-&quot;activity&quot;
+</code></pre>
+
+<p>And finally we create the data as an independent archive.</p>
+
+<pre><code># Just to send the archive to the correct place..
+setwd(&quot;~/Dropbox/Cursos/Coursera/Getting and Cleaning Data/Project/TidyDataProject/&quot;)
+# Creating the archive
+write.table(dataSummary, file=&quot;TidyDataSetFinal.txt&quot;)
+</code></pre>
 
 </body>
 

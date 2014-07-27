@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
-<title>Feature Selection </title>
+<title>CodeBook </title>
 
 <style type="text/css">
 body, td {
@@ -141,9 +141,45 @@ hr {
 </head>
 
 <body>
-<h1>Feature Selection </h1>
+<h1>CodeBook </h1>
 
-<p>The features selected for this database come from the accelerometer and gyroscope 3-axial raw signals tAcc-XYZ and tGyro-XYZ. These time domain signals (prefix &#39;t&#39; to denote time) were captured at a constant rate of 50 Hz. Then they were filtered using a median filter and a 3rd order low pass Butterworth filter with a corner frequency of 20 Hz to remove noise. Similarly, the acceleration signal was then separated into body and gravity acceleration signals (tBodyAcc-XYZ and tGravityAcc-XYZ) using another low pass Butterworth filter with a corner frequency of 0.3 Hz. </p>
+<h2>Original data and description of the variables</h2>
+
+<p>The data sets that compose the original raw data we&#39;re going to use are contained in a zip archive. This zip archive contains the nest <em>.txt</em> archives with relevant data for us:</p>
+
+<ul>
+<li>&#39;features_info.txt&#39;: Shows information about the variables used on the feature vector.</li>
+<li>&#39;features.txt&#39;: List of all features.</li>
+<li>&#39;activity_labels.txt&#39;: Links the class labels with their activity name.</li>
+<li>&#39;train/X_train.txt&#39;: Training set.</li>
+<li>&#39;train/y_train.txt&#39;: Training labels.</li>
+<li>&#39;test/X_test.txt&#39;: Test set.</li>
+<li>&#39;test/y_test.txt&#39;: Test labels.</li>
+</ul>
+
+<p>The following files are available for the train and test data. Their descriptions are equivalent. </p>
+
+<ul>
+<li>&#39;train/subject_train.txt&#39;: Each row identifies the subject who performed the activity for each window sample. Its range is from 1 to 30. </li>
+</ul>
+
+<p>For each record, that is the rows in <strong>X_train.txt</strong> and <strong>X_test.txt</strong>, it is provided:</p>
+
+<ul>
+<li>Triaxial acceleration from the accelerometer (total acceleration) and the estimated body acceleration.</li>
+<li>Triaxial Angular velocity from the gyroscope. </li>
+<li>A 561-feature vector with time and frequency domain variables. </li>
+<li>Its activity label. </li>
+<li>An identifier of the subject who carried out the experiment.</li>
+</ul>
+
+<h2>Summary of the transformation of the data</h2>
+
+<p>We </p>
+
+<h2>Appendix: Meaning of the data in the records</h2>
+
+<p>The features selected for this database come from the accelerometer and gyroscope 3-axial raw signals tAcc-XYZ and tGyro-XYZ. These time domain signals (prefix <strong>t</strong> to denote time) were captured at a constant rate of 50 Hz. Then they were filtered using a median filter and a 3rd order low pass Butterworth filter with a corner frequency of 20 Hz to remove noise. Similarly, the acceleration signal was then separated into body and gravity acceleration signals (tBodyAcc-XYZ and tGravityAcc-XYZ) using another low pass Butterworth filter with a corner frequency of 0.3 Hz. </p>
 
 <p>Subsequently, the body linear acceleration and angular velocity were derived in time to obtain Jerk signals (tBodyAccJerk-XYZ and tBodyGyroJerk-XYZ). Also the magnitude of these three-dimensional signals were calculated using the Euclidean norm (tBodyAccMag, tGravityAccMag, tBodyAccJerkMag, tBodyGyroMag, tBodyGyroJerkMag). </p>
 
@@ -199,6 +235,10 @@ tBodyGyroMean
 tBodyGyroJerkMean</p>
 
 <p>The complete list of variables of each feature vector is available in &#39;features.txt&#39;</p>
+
+<h2>The Processed data</h2>
+
+<h2>Steps to get the Processed data</h2>
 
 </body>
 

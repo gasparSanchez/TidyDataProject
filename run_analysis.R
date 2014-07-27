@@ -40,7 +40,7 @@ write.table(data, file="TidyDataSet.txt")
 # Table with the average of each variable for each activity and each subject. #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 library("reshape2")
-# Using aggregate to generate the new table with 
+# Using aggregate() to generate the new table with 
 # the average of each variable for each activity and each subject.
 dataSummary <-aggregate(data[3:81], by=list(data$subject,data$activity),FUN=mean, na.rm=TRUE)
 names(dataSummary)[1]<-"subject"
